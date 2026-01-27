@@ -1,7 +1,7 @@
 class School {
   directions: Direction[] = [];
 
-  addDirection(direction: Direction) {
+  addDirection(direction: Direction): void {
     this.directions.push(direction);
   }
 }
@@ -10,7 +10,7 @@ class Direction {
   levels: Level[] = [];
   _name: string;
 
-  get name() {
+  get name(): string {
     return this._name;
   }
 
@@ -18,7 +18,7 @@ class Direction {
     this._name = name;
   }
 
-  addLevel(level: Level) {
+  addLevel(level: Level): void {
     this.levels.push(level);
   }
 }
@@ -33,15 +33,15 @@ class Level {
     this._program = _program;
   }
 
-  get name() {
+  get name(): string {
     return this._name;
   }
 
-  get program() {
+  get program(): string {
     return this._program;
   }
 
-  addGroup(group: Group) {
+  addGroup(group: Group): void {
     this.groups.push(group);
   }
 }
@@ -51,7 +51,7 @@ class Group {
   directionName: string;
   levelName: string;
 
-  get students() {
+  get students(): Student[] {
     return this._students;
   }
 
@@ -60,11 +60,11 @@ class Group {
     this.levelName = levelName;
   }
 
-  addStudent(student: Student) {
+  addStudent(student: Student): void {
     this._students.push(student);
   }
 
-  showPerformance() {
+  showPerformance(): Student[] {
     const sortedStudents = this.students.toSorted(
       (a, b) => b.getPerformanceRating() - a.getPerformanceRating(),
     );
@@ -86,7 +86,7 @@ class Student {
     this.birthYear = birthYear;
   }
 
-  get fullName() {
+  get fullName(): string {
     return `${this.lastName} ${this.firstName}`;
   }
 
@@ -94,19 +94,19 @@ class Student {
     [this.lastName, this.firstName] = value.split(' ');
   }
 
-  get age() {
+  get age(): number {
     return new Date().getFullYear() - this.birthYear;
   }
 
-  setGrade(subject: string, grade: number) {
+  setGrade(subject: string, grade: number): void {
     this.grades[subject] = grade;
   }
 
-  markAttendance(present: boolean) {
+  markAttendance(present: boolean): void {
     this.attendance.push(present);
   }
 
-  getPerformanceRating() {
+  getPerformanceRating(): number {
     const gradeValues = Object.values(this.grades);
 
     if (gradeValues.length === 0) return 0;
