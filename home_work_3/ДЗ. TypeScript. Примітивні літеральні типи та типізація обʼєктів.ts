@@ -1,9 +1,38 @@
+type StatusType = 'active' | 'inactive';
+type AreaType = 'frontend' | 'backend' | 'fullstack';
+type LevelType = 'junior' | 'middle' | 'senior';
+type DirectionType = 'web' | 'mobile' | 'desktop';
+
+class Lecturer {
+  _name: string;
+  _specialization: AreaType;
+  _experience: number;
+
+  constructor(name: string, specialization: AreaType, experience: number) {
+    this._name = name;
+    this._specialization = specialization;
+    this._experience = experience;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  get specialization(): AreaType {
+    return this._specialization;
+  }
+
+  get experience(): number {
+    return this._experience;
+  }
+}
+
 class School {
   // implement 'add area', 'remove area', 'add lecturer', and 'remove lecturer' methods
 
   // Name, surname, position, company, experience, courses, contacts
   _areas: Area[] = [];
-  _lecturers: string[] = [];
+  _lecturers: Lecturer[] = [];
   name: string;
   surname: string;
   position: string;
@@ -34,7 +63,7 @@ class School {
     return this._areas;
   }
 
-  get lecturers(): string[] {
+  get lecturers(): Lecturer[] {
     return this._lecturers;
   }
 
@@ -46,11 +75,11 @@ class School {
     this._areas = this._areas.filter((area) => area._name !== areaName);
   }
 
-  addLecturer(lecturer: string): void {
+  addLecturer(lecturer: Lecturer): void {
     this._lecturers.push(lecturer);
   }
 
-  removeLecturer(lecturerName: string): void {
+  removeLecturer(lecturerName: Lecturer): void {
     this._lecturers = this._lecturers.filter(
       (lecturer) => lecturer !== lecturerName,
     );
@@ -119,13 +148,13 @@ class Level {
 class Group {
   // implement getters for fields and 'add/remove student' and 'set status' methods
 
-  _area: Area[];
+  _area: AreaType;
   _students: Student[] = []; // Modify the array so that it has a valid toSorted method*
-  _status: string;
-  _directionName: string;
-  _levelName: string;
+  _status: StatusType;
+  _directionName: DirectionType;
+  _levelName: LevelType;
 
-  get area(): Area[] {
+  get area(): AreaType {
     return this._area;
   }
 
@@ -133,27 +162,27 @@ class Group {
     return this._students;
   }
 
-  get status(): string {
+  get status(): StatusType {
     return this._status;
   }
 
-  set status(value: string) {
+  set status(value: StatusType) {
     this._status = value;
   }
 
-  get directionName(): string {
+  get directionName(): DirectionType {
     return this._directionName;
   }
 
-  get levelName(): string {
+  get levelName(): LevelType {
     return this._levelName;
   }
 
   constructor(
-    directionName: string,
-    levelName: string,
-    status: string,
-    area: Area[],
+    directionName: DirectionType,
+    levelName: LevelType,
+    status: StatusType,
+    area: AreaType,
   ) {
     this._directionName = directionName;
     this._levelName = levelName;
