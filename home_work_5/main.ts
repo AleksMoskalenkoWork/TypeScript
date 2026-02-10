@@ -6,7 +6,11 @@
 
 // У Square і Rectangle зі свого боку є ще додатковий метод print, який виводить рядок із формулою розрахунку площі
 
-abstract class Figure {
+interface IFigure {
+  calculateArea(...args: number[]): number;
+}
+
+abstract class Figure implements IFigure {
   #color: string;
   #name: string;
   constructor(color: string, name: string) {
