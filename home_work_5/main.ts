@@ -6,32 +6,39 @@
 
 // У Square і Rectangle зі свого боку є ще додатковий метод print, який виводить рядок із формулою розрахунку площі
 
-class Circle {
-  constructor(
-    private color: string,
-    private name: string,
-  ) {}
-  calculateArea(radius: number) {
+abstract class Figure {
+  #color: string;
+  #name: string;
+  constructor(color: string, name: string) {
+    this.#color = color;
+    this.#name = name;
+  }
+  abstract calculateArea(...args: number[]): number;
+}
+
+class Circle extends Figure {
+  constructor(color: string, name: string) {
+    super(color, name);
+  }
+  override calculateArea(radius: number) {
     return Math.PI * radius * radius;
   }
 }
 
-class Triangle {
-  constructor(
-    private color: string,
-    private name: string,
-  ) {}
-  calculateArea(a: number, b: number) {
+class Triangle extends Figure {
+  constructor(color: string, name: string) {
+    super(color, name);
+  }
+  override calculateArea(a: number, b: number) {
     return (a * b) / 2;
   }
 }
 
-class Rectangle {
-  constructor(
-    private color: string,
-    private name: string,
-  ) {}
-  calculateArea(a: number, b: number): number {
+class Rectangle extends Figure {
+  constructor(color: string, name: string) {
+    super(color, name);
+  }
+  override calculateArea(a: number, b: number): number {
     return a * b;
   }
   print() {
@@ -39,12 +46,11 @@ class Rectangle {
   }
 }
 
-class Square {
-  constructor(
-    private color: string,
-    private name: string,
-  ) {}
-  calculateArea(a: number) {
+class Square extends Figure {
+  constructor(color: string, name: string) {
+    super(color, name);
+  }
+  override calculateArea(a: number) {
     return a * a;
   }
   print() {
