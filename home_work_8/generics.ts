@@ -34,8 +34,8 @@ class AnalyticsTracker<E extends EventName, P extends EventPayloads[E]> {
 //    * затінив параметр типу у методі +++
 //    * повністю втратив типобезпеку при оновленні полів +++
 
-class FormProcessor<T extends Record<string, any> = Record<string, any>> {
-  public data: T;
+class FormProcessor<T extends any> {
+  public data: any;
 
   constructor(data: T) {
     this.data = data;
