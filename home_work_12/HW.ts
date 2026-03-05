@@ -31,33 +31,62 @@ interface Category {
 
 // Кожен список містить стан його фільтрів, який може бути змінений тільки методом applySearchValue або applyFiltersValue (за наявності додаткових фільтрів)
 
-type FilterType = 'match' | 'range' | 'values';
+// я б рекомендував прибрати неоднорідність з фільтрів і додати кожному дискримінант
 
-type BaseFilter<F> = {
-  type: FilterType;
-  filter: Extract<F, string | number>;
-  filterTo?: Extract<F, string | number>;
-};
-
-type SearchFilter<F> = {
-  values: F[];
-};
-
-interface BaseFilterState {
-  name?: BaseFilter<string>;
+enum FilterType {
+  Match = 'match',
+  Range = 'range',
+  Values = 'values',
 }
 
-interface MovieFilterState extends BaseFilterState {
-  releaseYear?: BaseFilter<string | number>;
-  rating?: BaseFilter<string | number>;
-  awards?: SearchFilter<string>;
+interface MatchFilter<T> {
+  type: FilterType.Match;
+  value: T;
 }
 
-interface List<T, F extends BaseFilterState> {
+interface RangeFilter<T> {
+  type: FilterType.Range;
+  from: T;
+  to: T;
+}
+
+interface SearchFilter<T> {
+  type: FilterType.Values;
+  values: T[];
+}
+
+type Filter<T> = MatchFilter<T> | RangeFilter<T> | SearchFilter<T>;
+
+interface MovieFilterState {
+  name?: Filter<string>;
+  releaseYear?: Filter<number>;
+  rating?: Filter<number>;
+  awards?: Filter<string>;
+}
+
+interface List<T, F> {
   items: T[];
   filterState: F;
   applySearchValue(name: string): void;
   applyFiltersValue(filters: Partial<F>): void;
+}
+
+class MovieList implements List<Movie, MovieFilterState> {
+  items: Movie[];
+  filterState: MovieFilterState;
+
+  constructor(movies: Movie[]) {
+    this.items = movies;
+    this.filterState = {};
+  }
+
+  applySearchValue(name: string): void {
+    this.filterState.name = { type: FilterType.Match, value: name };
+  }
+
+  applyFiltersValue(filters: Partial<MovieFilterState>): void {
+    this.filterState = { ...this.filterState, ...filters };
+  }
 }
 
 // Вам необхідно подумати про поділ вашого коду на різні сутності, інтерфеси і типи, щоб зробити ваше рішення типобезпечним. Реалізація всіх методів не є необхідною - це за бажанням.
